@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bharat BillPay Lite - Bill Lookup</title>
+</head>
+<body>
+    <h1>Bill Lookup</h1>
+    <form id="lookup-form">
+        <label for="customer-id">Customer ID</label>
+        <input type="number" id="customer-id" name="customer_id" required>
+        <button type="submit" id="lookup-btn">Find pending bills</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("lookup-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const customerId = document.getElementById("customer-id").value;
+            const res = await fetch(`/bills/customer/${customerId}/pending`);
+            const bills = await res.json();
+            document.getElementById("result").innerText = JSON.stringify(bills);
+        });
+    </script>
+</body>
+</html>

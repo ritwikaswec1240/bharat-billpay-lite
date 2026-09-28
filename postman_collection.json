@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "Bharat BillPay Lite",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" }
+  ],
+  "item": [
+    {
+      "name": "Create Biller",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/billers/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"MSEB\", \"code\": \"MSEB01\", \"category\": \"ELECTRICITY\"}"
+        }
+      }
+    },
+    {
+      "name": "Create Customer",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/customers/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Test User\", \"mobile\": \"9999999999\"}"
+        }
+      }
+    },
+    {
+      "name": "Create Bill",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/bills/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"biller_id\": 1, \"customer_id\": 1, \"bill_number\": \"BILL-001\", \"amount\": 450.5, \"due_date\": \"2026-12-01T00:00:00\"}"
+        }
+      }
+    },
+    {
+      "name": "Pay Bill",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/payments/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"bill_id\": 1, \"payment_mode\": \"UPI\"}"
+        }
+      }
+    },
+    {
+      "name": "Payment History (NoSQL log)",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/payments/customer/1/history"
+      }
+    },
+    {
+      "name": "Risk Score (ML)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/analytics/risk-score",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"amount\": 1200, \"hour_of_day\": 2, \"biller_category\": \"TELECOM\", \"customer_past_failures\": 2}"
+        }
+      }
+    }
+  ]
+}
